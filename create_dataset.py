@@ -2,9 +2,10 @@ import config, json, os, pprint, requests, sys, argparse
 
 from pybooru import Danbooru
 from os import path
+from recog import analyze_recognized
 
 # Define characters whose characters have more than 1 tag, since these are subsets of some other (all) tag
-char_exceptions = {'saber', "jeanne_d'arc_(fate)", "jeanne_d'arc_(alter)_(fate)", 'tamamo_no_mae_(fate)', 'nero_claudius_(fate)', 'scathach_(fate/grand_order)'}
+char_exceptions = {'saber', "jeanne_d'arc_(fate)", "jeanne_d'arc_(alter)_(fate)", 'tamamo_no_mae_(fate)', 'nero_claudius_(fate)', 'scathach_(fate/grand_order)', 'okita_souji_(fate)'}
 
 # Gets the top 520 characters with names starting at each letter of alphabet
 # Workaround since API doesn't allow to pull from straight up top 100 characters
@@ -82,16 +83,19 @@ def pull_images_for_character(client, tagname, char):
                     num_added += 1
         page_num += 1
 
+# Get path for badly formatted tags
 def name_to_path(path):
     esc_left = path.replace('(', '\(')
     esc_comp = esc_left.replace(')', '\)')
     return esc_comp.replace('/', '')
 
+# Use animeface-2009 to recognize & crop images
 def crop_face(taglist, offset):
     for idx, tag in enumerate(taglist):
         print(f'Cropping {tag["name"]}, index = {offset + idx}')
         char_path = name_to_path(tag['name'])
         os.system(f'ruby img_cropping/animeface-2009/animeface-ruby/face_collector.rb --src images/{char_path} --dest cropped_images/{char_path} --threshold 0.2 --margin 0.1')
+        analyze_recognized(char_path)
 
 if __name__ == '__main__':
     pp = pprint.PrettyPrinter(indent=4)

@@ -2,3 +2,4 @@ config.py
 images
 img_cropping
 cropped_images
+__pycache__
