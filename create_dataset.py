@@ -25,8 +25,8 @@ def get_characters(client):
     # Sort by popularity/count
     taglist.sort(key=lambda tag: tag['post_count'], reverse=True)
 
-    # Only classifying top 100
-    taglist100 = taglist[:101]
+    # Only classifying top 150 (allow some space to remove bad tags)
+    taglist150 = taglist[:151]
     
     # Remove unnecessary data
     def del_tags(tag):
@@ -36,7 +36,7 @@ def get_characters(client):
         del tag['is_locked']
         return tag
 
-    reduced_taglist = list(map(del_tags, taglist100))
+    reduced_taglist = list(map(del_tags, taglist150))
 
     # Write to file so we don't have to pull everytime
     with open('characters.json', 'w') as fp:
@@ -66,4 +66,4 @@ if __name__ == '__main__':
     pp = pprint.PrettyPrinter(indent=4)
     client = Danbooru('danbooru', username=config.user, api_key=config.api_key)
     taglist = get_characters(client)
-    pull_images(client, taglist)
+    # pull_images(client, taglist)
