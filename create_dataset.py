@@ -1,6 +1,8 @@
 import config
 import json
-import os.path
+import os
+import pprint
+import requests
 
 from pybooru import Danbooru
 from os import path
@@ -23,6 +25,9 @@ def get_characters(client):
     # Sort by popularity/count
     taglist.sort(key=lambda tag: tag['post_count'], reverse=True)
 
+    # Only classifying top 100
+    taglist100 = taglist[:101]
+    
     # Remove unnecessary data
     def del_tags(tag):
         del tag['category']
@@ -31,7 +36,7 @@ def get_characters(client):
         del tag['is_locked']
         return tag
 
-    reduced_taglist = list(map(del_tags, taglist))
+    reduced_taglist = list(map(del_tags, taglist100))
 
     # Write to file so we don't have to pull everytime
     with open('characters.json', 'w') as fp:
@@ -39,6 +44,26 @@ def get_characters(client):
 
     return reduced_taglist
 
+def pull_images(client, taglist):
+    for tag in taglist:
+        try:
+            os.mkdir(f'images/{tag["name"]}')
+        except OSError:
+            print(f'Creation of {tag["name"]} failed')
+        else:
+            postlist = client.post_list(limit=100, page=0, tags=tag['name'])
+            for idx, post in enumerate(postlist):
+                if 'file_url' in post:
+                    response = requests.get(post['file_url'])
+                    with open(f'images/{tag["name"]}/{tag["name"]}{idx}.jpg', 'wb') as fp:
+                        fp.write(response.content)
+
+
+
+
+
 if __name__ == '__main__':
+    pp = pprint.PrettyPrinter(indent=4)
     client = Danbooru('danbooru', username=config.user, api_key=config.api_key)
-    print(get_characters(client))
+    taglist = get_characters(client)
+    pull_images(client, taglist)
