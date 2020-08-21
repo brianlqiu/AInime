@@ -4,7 +4,7 @@ from pybooru import Danbooru
 from os import path
 
 # Define characters whose characters have more than 1 tag, since these are subsets of some other (all) tag
-char_exceptions = {'saber', "jeanne_d'arc_(fate)", "jeanne_d'arc_(alter)_(fate)", 'tamamo_no_mae_(fate)'}
+char_exceptions = {'saber', "jeanne_d'arc_(fate)", "jeanne_d'arc_(alter)_(fate)", 'tamamo_no_mae_(fate)', 'nero_claudius_(fate)', 'scathach_(fate/grand_order)'}
 
 # Gets the top 520 characters with names starting at each letter of alphabet
 # Workaround since API doesn't allow to pull from straight up top 100 characters
@@ -43,18 +43,23 @@ def get_characters(client):
 
     return reduced_taglist
 
+def remove_slashes(name):
+    return name.replace('/', '')
+
 # Pull images for the given tags/characters
 def pull_images(client, taglist, idx_offset=0):
     for idx, tag in enumerate(taglist):
         # Pictures will be stored at images/{charname}
         # Only create new dir if dir doesn't exist already, helps when pulling fails
-        if not os.path.isdir(f'images/{tag["name"]}'):
+        tagname = tag['name']
+        name = remove_slashes(tag['name'])
+        if not os.path.isdir(f'images/{name}'):
             try:
-                os.mkdir(f'images/{tag["name"]}')
+                os.mkdir(f'images/{name}')
             except OSError:
-                print(f'Creation of {tag["name"]} failed')
-        print(f'Pulling images for {tag["name"]}, index = {idx_offset + idx}')
-        pull_images_for_character(client, tag)
+                print(f'Creation of {name} failed')
+        print(f'Pulling images for {name}, index = {idx_offset + idx}')
+        pull_images_for_character(client, tagname, name)
 
 # A post is valid if it it's an image post, is a jpg, and only has one character (or is an exception)
 def valid_post(post, name):
@@ -62,30 +67,40 @@ def valid_post(post, name):
     char_chk = post['tag_count_character'] == 1 or (name in char_exceptions and post['tag_count_character'] == 2)
     return file_chk and char_chk
 
-def pull_images_for_character(client, char_data):
+def pull_images_for_character(client, tagname, char):
     num_added = 0
     page_num = 1
     # Since we won't be adding all posts (not all posts are valid), we want at least 100 photos
     while num_added < 100:
         # Get 100 posts from each page, not all will be good, so check multiple pages
-        postlist = client.post_list(limit=100, page=page_num, tags=char_data['name'])
+        postlist = client.post_list(limit=100, page=page_num, tags=tagname)
         for post in postlist:
-            if valid_post(post, char_data['name']):
+            if valid_post(post, tagname):
                 response = requests.get(post['file_url'])
-                with open(f'images/{char_data["name"]}/{char_data["name"]}{num_added}.jpg', 'wb') as fp:
+                with open(f'images/{char}/{char}{num_added}.jpg', 'wb') as fp:
                     fp.write(response.content)
                     num_added += 1
         page_num += 1
+
+def name_to_path(path):
+    esc_left = path.replace('(', '\(')
+    esc_comp = esc_left.replace(')', '\)')
+    return esc_comp.replace('/', '')
+
+def crop_face(taglist, offset):
+    for idx, tag in enumerate(taglist):
+        print(f'Cropping {tag["name"]}, index = {offset + idx}')
+        char_path = name_to_path(tag['name'])
+        os.system(f'ruby img_cropping/animeface-2009/animeface-ruby/face_collector.rb --src images/{char_path} --dest cropped_images/{char_path} --threshold 0.2 --margin 0.1')
 
 if __name__ == '__main__':
     pp = pprint.PrettyPrinter(indent=4)
 
     parser = argparse.ArgumentParser(description='Tool to create 15,000 image dataset from Danbooru')
-    parser.add_argument('-n', action='store', dest='offset', type=int)
+    parser.add_argument('-n', action='store', dest='offset', type=int, default=0)
+    parser.add_argument('-c', action='store_true', dest='crop', default=False)
     args = parser.parse_args(sys.argv[1:])
-
-    offset = 0 if args.offset == None else args.offset
 
     client = Danbooru('danbooru', username=config.user, api_key=config.api_key)
     taglist = get_characters(client)
-    pull_images(client, taglist[offset:], offset)
+    pull_images(client, taglist[args.offset:], args.offset) if not args.crop else crop_face(taglist[args.offset:], args.offset)

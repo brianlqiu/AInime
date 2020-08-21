@@ -1,2 +1,4 @@
 config.py
 images
+img_cropping
+cropped_images
