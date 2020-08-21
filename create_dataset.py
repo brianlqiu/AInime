@@ -51,19 +51,23 @@ def pull_images(client, taglist):
         except OSError:
             print(f'Creation of {tag["name"]} failed')
         else:
-            postlist = client.post_list(limit=100, page=0, tags=tag['name'])
-            for idx, post in enumerate(postlist):
-                if 'file_url' in post:
-                    response = requests.get(post['file_url'])
-                    with open(f'images/{tag["name"]}/{tag["name"]}{idx}.jpg', 'wb') as fp:
-                        fp.write(response.content)
+            pull_images_for_character(client, tag)
 
-
-
-
+def pull_images_for_character(client, char_data):
+    num_added = 0
+    page_num = 1
+    while num_added < 100:
+        postlist = client.post_list(limit=100, page=page_num, tags=char_data['name'])
+        for post in enumerate(postlist):
+            if post['file_ext'] == 'jpg' and post['tag_count_character'] == 1:
+                response = requests.get(post['file_url'])
+                with open(f'images/{tag["name"]}/{tag["name"]}{num_added}.jpg', 'wb') as fp:
+                    fp.write(response.content)
+                    num_added += 1
+        page_num += 1
 
 if __name__ == '__main__':
     pp = pprint.PrettyPrinter(indent=4)
     client = Danbooru('danbooru', username=config.user, api_key=config.api_key)
     taglist = get_characters(client)
-    # pull_images(client, taglist)
+    pull_images(client, taglist)
