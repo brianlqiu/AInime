@@ -58,10 +58,10 @@ def pull_images_for_character(client, char_data):
     page_num = 1
     while num_added < 100:
         postlist = client.post_list(limit=100, page=page_num, tags=char_data['name'])
-        for post in enumerate(postlist):
-            if post['file_ext'] == 'jpg' and post['tag_count_character'] == 1:
+        for post in postlist:
+            if 'file_ext' in post and post['file_ext'] == 'jpg' and post['tag_count_character'] == 1:
                 response = requests.get(post['file_url'])
-                with open(f'images/{tag["name"]}/{tag["name"]}{num_added}.jpg', 'wb') as fp:
+                with open(f'images/{char_data["name"]}/{char_data["name"]}{num_added}.jpg', 'wb') as fp:
                     fp.write(response.content)
                     num_added += 1
         page_num += 1
