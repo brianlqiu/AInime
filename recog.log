@@ -136,3 +136,75 @@ Recognized:          88
 Percent recognized:  87.1%
 Unrecognized values: [0,15,26,28,41,46,47,55,56,63,87,88,95]
 
+miki_sayaka
+Original:            123
+Recognized:          107
+Percent recognized:  87.0%
+Unrecognized values: [16,27,45,56,63,64,76,82,92,93,95,99,114,115,117,119]
+
+saber
+Original:            105
+Recognized:          92
+Percent recognized:  87.6%
+Unrecognized values: [0,11,15,29,41,53,66,70,79,83,87,93,103]
+
+moriya_suwako
+Original:            104
+Recognized:          90
+Percent recognized:  86.5%
+Unrecognized values: [22,25,27,28,31,43,44,46,52,55,60,61,78,97]
+
+kazami_yuuka
+Original:            132
+Recognized:          114
+Percent recognized:  86.4%
+Unrecognized values: [17,28,33,39,42,44,50,53,54,56,57,59,76,80,85,92,105,131]
+
+rumia
+Original:            132
+Recognized:          112
+Percent recognized:  84.8%
+Unrecognized values: [16,19,24,28,42,44,45,56,65,70,88,91,92,93,94,95,96,100,114,128]
+
+kagamine_rin
+Original:            102
+Recognized:          95
+Percent recognized:  93.1%
+Unrecognized values: [11,17,19,40,49,73,78]
+
+kamishirasawa_keine
+Original:            101
+Recognized:          94
+Percent recognized:  93.1%
+Unrecognized values: [0,23,48,51,83,84,97]
+
+reiuji_utsuho
+Original:            131
+Recognized:          119
+Percent recognized:  90.8%
+Unrecognized values: [0,14,17,33,59,64,65,86,114,119,120,122]
+
+chen
+Original:            115
+Recognized:          105
+Percent recognized:  91.3%
+Unrecognized values: [21,23,28,45,51,59,81,82,103,111]
+
+hibiki_(kantai_collection)
+Original:            100
+Recognized:          80
+Percent recognized:  80.0%
+Unrecognized values: [11,15,22,23,29,30,36,44,52,53,62,69,77,78,79,82,86,89,91,92]
+
+shimakaze_(kantai_collection)
+Original:            105
+Recognized:          90
+Percent recognized:  85.7%
+Unrecognized values: [13,14,15,39,42,53,56,62,66,69,80,92,94,101,103]
+
+sakura_kyouko
+Original:            105
+Recognized:          86
+Percent recognized:  81.9%
+Unrecognized values: [13,14,20,22,23,34,38,46,48,64,72,73,80,81,84,85,90,100,101]
+

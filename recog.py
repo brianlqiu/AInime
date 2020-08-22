@@ -1,7 +1,7 @@
 import os, argparse, glob, sys, decimal
 
 def analyze_recognized(char):
-    num_orig = len(os.listdir(f'images/{char}'))
+    num_orig = len(os.listdir(f'raw_images/validation/{char}')) + len(os.listdir(f'raw_images/training/{char}'))
     print(f'Number of raw images for {char}: {num_orig}')
     num_missing = 0
     missing_list = []

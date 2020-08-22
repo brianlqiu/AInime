@@ -94,7 +94,8 @@ def crop_face(taglist, offset):
     for idx, tag in enumerate(taglist):
         print(f'Cropping {tag["name"]}, index = {offset + idx}')
         char_path = name_to_path(tag['name'])
-        os.system(f'ruby animeface-2009/animeface-ruby/face_collector.rb --src raw_images/training_set/{char_path} --dest cropped_images/{char_path} --threshold 0.2 --margin 0.1')
+        os.system(f'ruby animeface-2009/animeface-ruby/face_collector.rb --src raw_images/training/{char_path} --dest cropped_images/{char_path} --threshold 0.2 --margin 0.1')
+        os.system(f'ruby animeface-2009/animeface-ruby/face_collector.rb --src raw_images/validation/{char_path} --dest cropped_images/{char_path} --threshold 0.2 --margin 0.1')
         analyze_recognized(tag['name'])
 
 def create_validation():
@@ -110,7 +111,7 @@ def create_validation():
             try:
                 os.rename(f'{training_base}/{char}/{char}{i}.jpg', f'{validation_base}/{char}/{char}{i}.jpg')
             except:
-                print("Doesn't exist")
+                print("File doesn't exist")
 
 if __name__ == '__main__':
     pp = pprint.PrettyPrinter(indent=4)
