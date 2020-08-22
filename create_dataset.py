@@ -1,4 +1,4 @@
-import config, json, os, pprint, requests, sys, argparse
+import config, json, os, pprint, requests, sys, argparse, math
 
 from pybooru import Danbooru
 from os import path
@@ -94,8 +94,23 @@ def crop_face(taglist, offset):
     for idx, tag in enumerate(taglist):
         print(f'Cropping {tag["name"]}, index = {offset + idx}')
         char_path = name_to_path(tag['name'])
-        os.system(f'ruby img_cropping/animeface-2009/animeface-ruby/face_collector.rb --src images/{char_path} --dest cropped_images/{char_path} --threshold 0.2 --margin 0.1')
-        analyze_recognized(char_path)
+        os.system(f'ruby animeface-2009/animeface-ruby/face_collector.rb --src raw_images/training_set/{char_path} --dest cropped_images/{char_path} --threshold 0.2 --margin 0.1')
+        analyze_recognized(tag['name'])
+
+def create_validation():
+    training_base = 'raw_images/training'
+    validation_base = 'raw_images/validation'
+    charlist = os.listdir(training_base)
+    for char in charlist:
+        if not os.path.isdir(f'{validation_base}/{char}'):
+            os.mkdir(f'{validation_base}/{char}')
+        numimgs = len(os.listdir(f'{training_base}/{char}'))
+        num_validation = math.floor(numimgs * 0.15)
+        for i in range(num_validation):
+            try:
+                os.rename(f'{training_base}/{char}/{char}{i}.jpg', f'{validation_base}/{char}/{char}{i}.jpg')
+            except:
+                print("Doesn't exist")
 
 if __name__ == '__main__':
     pp = pprint.PrettyPrinter(indent=4)
@@ -103,8 +118,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Tool to create 15,000 image dataset from Danbooru')
     parser.add_argument('-n', action='store', dest='offset', type=int, default=0)
     parser.add_argument('-c', action='store_true', dest='crop', default=False)
+    parser.add_argument('-v', action='store_true', dest='validate', default=False)
     args = parser.parse_args(sys.argv[1:])
 
-    client = Danbooru('danbooru', username=config.user, api_key=config.api_key)
-    taglist = get_characters(client)
-    pull_images(client, taglist[args.offset:], args.offset) if not args.crop else crop_face(taglist[args.offset:], args.offset)
+    if args.validate:
+        create_validation()
+    else:
+        client = Danbooru('danbooru', username=config.user, api_key=config.api_key)
+        taglist = get_characters(client)
+        pull_images(client, taglist[args.offset:], args.offset) if not args.crop else crop_face(taglist[args.offset:], args.offset)

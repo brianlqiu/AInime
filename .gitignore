@@ -3,3 +3,6 @@ images
 img_cropping
 cropped_images
 __pycache__
+raw_images
+.gitignore
+.vscode

@@ -4,3 +4,135 @@ Recognized:          86
 Percent recognized:  83.5%
 Unrecognized values: [14,16,22,23,25,36,45,47,64,65,66,73,74,90,91,97,100]
 
+hakurei_reimu
+Original:            103
+Recognized:          82
+Percent recognized:  79.6%
+Unrecognized values: [14,15,20,21,35,36,38,47,50,51,53,59,61,62,65,67,70,75,77,86,98]
+
+kirisame_marisa
+Original:            111
+Recognized:          92
+Percent recognized:  82.9%
+Unrecognized values: [18,28,33,39,50,51,53,60,65,70,79,81,82,85,91,95,103,104,108]
+
+remilia_scarlet
+Original:            109
+Recognized:          89
+Percent recognized:  81.7%
+Unrecognized values: [11,20,27,30,45,46,48,51,54,62,70,72,73,74,77,87,88,104,105,108]
+
+izayoi_sakuya
+Original:            106
+Recognized:          93
+Percent recognized:  87.7%
+Unrecognized values: [14,16,26,32,33,60,61,65,67,68,73,81,98]
+
+flandre_scarlet
+Original:            117
+Recognized:          107
+Percent recognized:  91.5%
+Unrecognized values: [42,44,46,61,85,88,92,108,112,115]
+
+alice_margatroid
+Original:            104
+Recognized:          94
+Percent recognized:  90.4%
+Unrecognized values: [13,18,34,47,54,75,93,95,96,101]
+
+patchouli_knowledge
+Original:            103
+Recognized:          89
+Percent recognized:  86.4%
+Unrecognized values: [23,25,29,37,43,44,45,46,64,73,79,85,86,88]
+
+kochiya_sanae
+Original:            104
+Recognized:          95
+Percent recognized:  91.3%
+Unrecognized values: [18,19,34,50,55,56,64,83,88]
+
+cirno
+Original:            104
+Recognized:          94
+Percent recognized:  90.4%
+Unrecognized values: [15,22,29,30,33,36,55,63,83,93]
+
+yakumo_yukari
+Original:            107
+Recognized:          92
+Percent recognized:  86.0%
+Unrecognized values: [19,22,23,30,41,43,46,48,55,74,75,83,84,93,96]
+
+shameimaru_aya
+Original:            108
+Recognized:          87
+Percent recognized:  80.6%
+Unrecognized values: [0,12,14,15,16,17,18,27,32,44,50,61,62,68,71,78,79,87,97,102,106]
+
+konpaku_youmu
+Original:            100
+Recognized:          90
+Percent recognized:  90.0%
+Unrecognized values: [0,12,15,16,17,27,61,69,77,94]
+
+fujiwara_no_mokou
+Original:            107
+Recognized:          91
+Percent recognized:  85.0%
+Unrecognized values: [0,11,30,32,41,49,50,59,65,73,75,84,90,95,97,98]
+
+hong_meiling
+Original:            109
+Recognized:          98
+Percent recognized:  89.9%
+Unrecognized values: [20,23,25,59,71,82,87,88,90,94,105]
+
+reisen_udongein_inaba
+Original:            129
+Recognized:          119
+Percent recognized:  92.2%
+Unrecognized values: [21,28,29,40,41,42,51,58,81,117]
+
+komeiji_koishi
+Original:            120
+Recognized:          102
+Percent recognized:  85.0%
+Unrecognized values: [18,24,31,32,35,36,61,62,66,72,73,75,80,83,90,92,98,114]
+
+kaname_madoka
+Original:            108
+Recognized:          94
+Percent recognized:  87.0%
+Unrecognized values: [12,16,21,22,24,35,38,41,44,50,64,90,97,98]
+
+saigyouji_yuyuko
+Original:            126
+Recognized:          106
+Percent recognized:  84.1%
+Unrecognized values: [0,28,33,34,41,44,49,51,57,68,75,84,89,90,91,92,95,96,97,110]
+
+komeiji_satori
+Original:            127
+Recognized:          115
+Percent recognized:  90.6%
+Unrecognized values: [13,14,22,36,41,50,56,59,78,80,83,125]
+
+kaga_(kantai_collection)
+Original:            118
+Recognized:          85
+Percent recognized:  72.0%
+Unrecognized values: [20,21,28,31,32,34,35,36,38,46,47,48,52,53,54,63,65,69,72,75,79,81,82,85,86,92,94,96,100,103,104,109,114]
+
+inubashiri_momiji
+Original:            135
+Recognized:          120
+Percent recognized:  88.9%
+Unrecognized values: [20,33,34,35,36,40,41,82,88,89,98,102,104,107,130]
+
+yakumo_ran
+Original:            101
+Recognized:          88
+Percent recognized:  87.1%
+Unrecognized values: [0,15,26,28,41,46,47,55,56,63,87,88,95]
+
