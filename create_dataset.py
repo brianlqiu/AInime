@@ -1,4 +1,4 @@
-import config, json, os, pprint, requests, sys, argparse, math
+import config, json, os, pprint, requests, sys, argparse, math, time, random
 
 from pybooru import Danbooru
 from os import path
@@ -92,26 +92,37 @@ def name_to_path(path):
 # Use animeface-2009 to recognize & crop images
 def crop_face(taglist, offset):
     for idx, tag in enumerate(taglist):
+        print(time.strftime('%H:%M:%S', time.localtime()))
         print(f'Cropping {tag["name"]}, index = {offset + idx}')
-        char_path = name_to_path(tag['name'])
-        os.system(f'ruby animeface-2009/animeface-ruby/face_collector.rb --src raw_images/training/{char_path} --dest cropped_images/{char_path} --threshold 0.2 --margin 0.1')
-        os.system(f'ruby animeface-2009/animeface-ruby/face_collector.rb --src raw_images/validation/{char_path} --dest cropped_images/{char_path} --threshold 0.2 --margin 0.1')
-        analyze_recognized(tag['name'])
+        char_path = remove_slashes(tag['name'])
+        os.system(f'ruby animeface-2009/animeface-ruby/face_collector.rb --src "raw_images/training/{char_path}" --dest "cropped_images/{char_path}" --threshold 0.2 --margin 0.1')
+        os.system(f'ruby animeface-2009/animeface-ruby/face_collector.rb --src "raw_images/validation/{char_path}" --dest "cropped_images/{char_path}" --threshold 0.2 --margin 0.1')
+        analyze_recognized(char_path)
 
 def create_validation():
-    training_base = 'raw_images/training'
-    validation_base = 'raw_images/validation'
-    charlist = os.listdir(training_base)
+    training_base = 'cropped_images/train'
+    validation_base = 'cropped_images/validation'
+    charlist = os.listdir('cropped_images')
     for char in charlist:
-        if not os.path.isdir(f'{validation_base}/{char}'):
-            os.mkdir(f'{validation_base}/{char}')
-        numimgs = len(os.listdir(f'{training_base}/{char}'))
-        num_validation = math.floor(numimgs * 0.15)
-        for i in range(num_validation):
+        if char == 'train' or char == 'validation':
+            continue
+
+        os.mkdir(f'{training_base}/{char}')
+        os.mkdir(f'{validation_base}/{char}')
+        src_dir = f'cropped_images/{char}'
+        imgs = os.listdir(src_dir)
+        numimgs = len(imgs)
+        num_train = math.floor(numimgs * 0.15)
+        # Take a random 15% sampling of the images and store indices in set
+        val_inds = set(random.sample(range(numimgs), k=num_train))
+        for idx, img in enumerate(imgs):
+            src = os.path.join(src_dir, img)
+            dest = f'{validation_base}/{char}/{img}' if idx in val_inds else f'{training_base}/{char}/{img}'
+            print(f'Trying to move {src} to {dest}')
             try:
-                os.rename(f'{training_base}/{char}/{char}{i}.jpg', f'{validation_base}/{char}/{char}{i}.jpg')
+                os.rename(src, dest)
             except:
-                print("File doesn't exist")
+                print("Moving failed")
 
 if __name__ == '__main__':
     pp = pprint.PrettyPrinter(indent=4)

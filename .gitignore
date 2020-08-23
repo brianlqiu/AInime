@@ -6,3 +6,5 @@ __pycache__
 raw_images
 .gitignore
 .vscode
+dataset.zip
+dataset_cropped.zip
